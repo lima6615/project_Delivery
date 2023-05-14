@@ -2,7 +2,12 @@ import './styles.css';
 
 const Admin = () =>{
     return(
-        <h1>Tela de Admin!</h1>
+       <div className="admin-container">
+        <h1>Navbar</h1>
+        <div className="admin-content">
+            <h1>Conteudo</h1>
+        </div>
+       </div>
     );
 }
 
