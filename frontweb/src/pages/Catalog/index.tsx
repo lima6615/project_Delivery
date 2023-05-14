@@ -1,27 +1,32 @@
 import './styles.css';
 
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { AxiosParams } from '../../assets/types/axios';
 import { Product } from '../../assets/types/product';
-import ProductCard from '../../components/ProductCard';
+import { SpringPage } from '../../assets/types/spring';
 import Pagination from '../../components/pagination';
+import ProductCard from '../../components/ProductCard';
+import { BASE_URL } from '../../util/request';
 
 const Catalog = () => {
-  const product: Product = {
-    id: 4,
-    name: 'Cachorro-Quente',
-    description: 'Pão , Salsicha, Queijo e Milho',
-    figure:
-      'https://raw.githubusercontent.com/lima6615/project_Delivery/main/img/cachorro-quente.png',
+  const [page, setPage] = useState<SpringPage<Product>>();
 
-    price: 20.0,
-    categories: [
-      {
-        id: 1,
-        name: 'Hot-Dog',
+  useEffect(() => {
+    const params: AxiosParams = {
+      method: 'GET',
+      url: `${BASE_URL}/products`,
+      params: {
+        page: 0,
+        size: 12,
       },
-    ],
-  };
+    };
+    axios(params).then((response) => {
+      setPage(response.data);
+    });
+  }, [page]);
 
   return (
     <div className="container my-4 catalog-container">
@@ -29,33 +34,14 @@ const Catalog = () => {
         <h1>Catálago de Produtos</h1>
       </div>
       <div className="row">
-        <div className="col-sm-6 col-lg-4 col-xl-3">
-          <Link to="/products/1">
-            <ProductCard product={product} />
-          </Link>
-        </div>
-        <div className="col-sm-6 col-lg-4 col-xl-3">
-          <Link to="/products/1">
-            <ProductCard product={product} />
-          </Link>
-        </div>
-        <div className="col-sm-6 col-lg-4 col-xl-3">
-          <Link to="/products/1">
-            <ProductCard product={product} />
-          </Link>
-        </div>
-        <div className="col-sm-6 col-lg-4 col-xl-3">
-          <Link to="/products/1">
-            <ProductCard product={product} />
-          </Link>
-        </div>
-        <div className="col-sm-6 col-lg-4 col-xl-3">
-          <Link to="/products/1">
-            <ProductCard product={product} />
-          </Link>
-        </div>
+        {page?.content.map((product) => (
+          <div className="col-sm-6 col-lg-4 col-xl-3" key={product.id}>
+            <Link to="/products/1">
+              <ProductCard product={product} />
+            </Link>
+          </div>
+        ))}
       </div>
-
       <div className="row">
         <Pagination />
       </div>

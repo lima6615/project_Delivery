@@ -19,17 +19,17 @@ public class ProductController {
     @Autowired
     private ProductService service;
 
-   /* @GetMapping
+    @GetMapping
     public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable){
         Page<ProductDTO> dto = service.findAll(pageable);
         return ResponseEntity.ok().body(dto);
-    }*/
+    }
 
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<List<ProductDTO>> findAll(){
         List<ProductDTO> dto = service.findAll();
         return ResponseEntity.ok().body(dto);
-    }
+    }*/
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id){

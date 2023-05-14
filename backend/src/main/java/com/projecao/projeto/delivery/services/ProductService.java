@@ -12,6 +12,8 @@ import com.projecao.projeto.delivery.services.exception.ResourceExistsException;
 import com.projecao.projeto.delivery.services.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,18 +29,18 @@ public class ProductService {
     @Autowired
     private CategoryRepository repositoryCategory;
 
-    /*@Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public Page<ProductDTO> findAll(Pageable pageable){
         Page<Product> products = repository.findAll(pageable);
         return products.map(x -> new ProductDTO(x));
-    }*/
+    }
 
-    @Transactional(readOnly = true)
+    /*@Transactional(readOnly = true)
     public List<ProductDTO> findAll(){
         List<Product> products = repository.findAll();
         List<ProductDTO> dto = products.stream().map(x -> new ProductDTO(x)).toList();
         return dto;
-    }
+    }*/
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id){
