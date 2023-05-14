@@ -3,16 +3,18 @@ import ProductCard from '../../components/ProductCard';
 
 const Catalog = () => {
   const product: Product = {
-    id: 1,
+    id: 4,
     name: 'Cachorro-Quente',
     description: 'Pão , Salsicha, Queijo e Milho',
-    price: 10.0,
+    figure:"https://raw.githubusercontent.com/lima6615/project_Delivery/main/img/cachorro-quente.png",
+    
+    price: 20.0,
     categories: [
-      {
-        id: 1,
-        name: 'Hot-Dog',
-      },
-    ],
+        {
+            id: 1,
+            name: 'Hot-Dog'
+        }
+    ]
   };
 
   return (
