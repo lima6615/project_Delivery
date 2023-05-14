@@ -23,7 +23,7 @@
     margin-bottom: 15px;
 }
 
-.home-content-container p{
+.home-content-container p {
     width: 260px;
     color: #9E9E9E;
     font-size: 0.6em;
@@ -55,7 +55,7 @@
         width: 506px;
         margin-bottom: 20px;
     }
-    
+
     .home-image-container svg {
         width: 506px;
         border-radius: 20px;
@@ -127,7 +127,6 @@
         width: 460px;
     }
 }
-
 
 @media (min-width: 1366px) {
     .home-image-container svg {
