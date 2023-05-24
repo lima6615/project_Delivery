@@ -2,7 +2,7 @@ import './styles.css';
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { AxiosParams } from '../../assets/types/axios';
 import { Product } from '../../assets/types/product';
@@ -11,7 +11,9 @@ import Pagination from '../../components/pagination';
 import ProductCard from '../../components/ProductCard';
 import { BASE_URL } from '../../util/request';
 
+
 const Catalog = () => {
+
   const [page, setPage] = useState<SpringPage<Product>>();
 
   useEffect(() => {
@@ -26,7 +28,7 @@ const Catalog = () => {
     axios(params).then((response) => {
       setPage(response.data);
     });
-  }, [page]);
+  }, []);
 
   return (
     <div className="container my-4 catalog-container">

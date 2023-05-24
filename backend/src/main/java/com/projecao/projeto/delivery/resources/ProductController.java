@@ -9,9 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-
 @RestController
 @RequestMapping(value = "/products")
 public class ProductController {
@@ -24,12 +21,6 @@ public class ProductController {
         Page<ProductDTO> dto = service.findAll(pageable);
         return ResponseEntity.ok().body(dto);
     }
-
-    /*@GetMapping
-    public ResponseEntity<List<ProductDTO>> findAll(){
-        List<ProductDTO> dto = service.findAll();
-        return ResponseEntity.ok().body(dto);
-    }*/
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id){

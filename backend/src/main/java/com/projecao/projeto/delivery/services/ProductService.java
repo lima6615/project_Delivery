@@ -17,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,13 +33,6 @@ public class ProductService {
         Page<Product> products = repository.findAll(pageable);
         return products.map(x -> new ProductDTO(x));
     }
-
-    /*@Transactional(readOnly = true)
-    public List<ProductDTO> findAll(){
-        List<Product> products = repository.findAll();
-        List<ProductDTO> dto = products.stream().map(x -> new ProductDTO(x)).toList();
-        return dto;
-    }*/
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id){
