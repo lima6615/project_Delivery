@@ -49,6 +49,9 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
+        <div className="container-button">
+          <button type="button" className="btn btn-primary">Adicionar</button>
+        </div>
       </div>
     </div>
   );

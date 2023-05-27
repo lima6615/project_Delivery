@@ -41,6 +41,7 @@ ul{
 @media (min-width: 768px) {
     .admin-nav-item {
         min-width: 220px;
+        padding-left: 40px;
     }
 }
 

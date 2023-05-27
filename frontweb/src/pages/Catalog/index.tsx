@@ -2,7 +2,7 @@ import './styles.css';
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { AxiosParams } from '../../assets/types/axios';
 import { Product } from '../../assets/types/product';
@@ -44,6 +44,7 @@ const Catalog = () => {
           </div>
         ))}
       </div>
+      
       <div className="row">
         <Pagination />
       </div>

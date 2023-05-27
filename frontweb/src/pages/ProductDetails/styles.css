@@ -1,3 +1,9 @@
+.container-button button{
+    border-radius: 20px;
+    color: #ffff
+}
+
+
 .product-details-container{
     padding: 10px;
     font-size: 24px;
@@ -98,7 +104,7 @@
     }
 
     .img-container img{
-        width: 50%;
+        width: 30%;
     }
 
     .description-container{ 
@@ -118,8 +124,12 @@
     }
 
     .img-container img{
-        height: 200px;
+        height: 150px;
         width: auto;
+    }
+
+    .img-container {
+        min-height: 222px;
     }
 
     .description-container{
