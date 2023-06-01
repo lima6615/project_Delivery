@@ -3,31 +3,33 @@ package com.projecao.projeto.delivery.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name = "tb_categoria")
-public class Category implements Serializable{
+@Table(name = "tb_perfil")
+public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	
-    @Column(name = "nome")
-    private String name;
 
-    @ManyToMany(mappedBy = "categories")
-    private Set<Product> products = new HashSet<>();
+	@Column(name = "autorizacao")
+    private String authorith;
 
-    public Category(){
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users = new HashSet<>();
+
+    public Role(){
     }
 
-    public Category(Long id, String name){
+    public Role(Long id, String authorith) {
         this.id = id;
-        this.name = name;
+        this.authorith = authorith;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -36,24 +38,20 @@ public class Category implements Serializable{
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getAuthorith() {
+        return authorith;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Product> getProducts() {
-        return products;
+    public void setAuthorith(String authorith) {
+        this.authorith = authorith;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return Objects.equals(id, category.id);
+        Role role = (Role) o;
+        return Objects.equals(id, role.id);
     }
 
     @Override

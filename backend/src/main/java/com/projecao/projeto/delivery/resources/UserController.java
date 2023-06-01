@@ -1,5 +1,6 @@
 package com.projecao.projeto.delivery.resources;
 
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,42 +17,44 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projecao.projeto.delivery.dto.ProductDTO;
-import com.projecao.projeto.delivery.services.ProductService;
+import com.projecao.projeto.delivery.dto.UserDTO;
+import com.projecao.projeto.delivery.dto.UserInsertDTO;
+import com.projecao.projeto.delivery.services.UserService;
+
 
 @RestController
-@RequestMapping(value = "/products")
-public class ProductController {
+@RequestMapping(value = "/users")
+public class UserController {
 
     @Autowired
-    private ProductService service;
-
+    private UserService service;
+    
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable){
-        Page<ProductDTO> dto = service.findAll(pageable);
-        return ResponseEntity.ok().body(dto);
+    public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable){
+      Page<UserDTO> dto = service.findAll(pageable);
+      return ResponseEntity.ok().body(dto);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ProductDTO> findById(@PathVariable Long id){
-        ProductDTO dto = service.findById(id);
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id){
+        UserDTO dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto){
-        dto =  service.insert(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto){
+       UserDTO userdto = service.insert(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userdto);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO dto){
-        dto =  service.update(id, dto);
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO dto){
+        dto = service.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete (@PathVariable  Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 @Configuration
 public class ResourceServerConfig {
-
+	
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfig = new CorsConfiguration();

@@ -6,34 +6,40 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ENDERECO")
+@Table(name = "tb_endereco")
 public class Address implements Serializable {
-    @Id
+    private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "ESTADO")
-    private Character state;
-    @Column(name = "BAIRRO")
+    @Column(name = "estado")
+    private String state;
+    
+    @Column(name = "bairro")
     private String district;
-    @Column(name = "CIDADE")
+    
+    @Column(name = "cidade")
     private String city;
-    @Column(name = "RUA")
+    
+    @Column(name = "rua")
     private String road;
-
+    
     @OneToOne
-    @JoinColumn(name= "ID_CLIENTE")
-    private Client client;
+    @JoinColumn(name = "id_usuario")
+    private User user;
+    
     public Address(){}
 
-    public Address(Long id, Character state, String district, String city, String road, Client client) {
+    public Address(Long id, String state, String district, String city, String road, User user) {
         this.id = id;
         this.state = state;
         this.district = district;
         this.city = city;
         this.road = road;
-        this.client = client;
+        this.user = user;
     }
 
     public Long getId() {
@@ -44,11 +50,11 @@ public class Address implements Serializable {
         this.id = id;
     }
 
-    public Character getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(Character state) {
+    public void setState(String state) {
         this.state = state;
     }
 
@@ -75,16 +81,12 @@ public class Address implements Serializable {
     public void setRoad(String road) {
         this.road = road;
     }
+    
+    public User getUser() {
+		return user;
+	}
 
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    @Override
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

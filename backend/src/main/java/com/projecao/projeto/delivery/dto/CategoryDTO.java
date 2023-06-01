@@ -1,12 +1,18 @@
 package com.projecao.projeto.delivery.dto;
 
-import com.projecao.projeto.delivery.entities.Category;
-
 import java.io.Serializable;
 
-public class CategoryDTO  implements Serializable {
+import javax.validation.constraints.NotBlank;
 
-    private Long id;
+import com.projecao.projeto.delivery.entities.Category;
+
+
+public class CategoryDTO  implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
+	private Long id;
+	
+	@NotBlank(message = "Campo requerido")
     private String name;
 
     public CategoryDTO(){
