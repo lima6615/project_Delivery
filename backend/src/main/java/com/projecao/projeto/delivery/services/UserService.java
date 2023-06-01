@@ -2,6 +2,10 @@ package com.projecao.projeto.delivery.services;
 
 import java.util.Optional;
 
+import com.projecao.projeto.delivery.services.exceptions.DatabaseException;
+import com.projecao.projeto.delivery.services.exceptions.ResourceEmptyException;
+import com.projecao.projeto.delivery.services.exceptions.ResourceExistsException;
+import com.projecao.projeto.delivery.services.exceptions.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,26 +26,20 @@ import com.projecao.projeto.delivery.entities.Role;
 import com.projecao.projeto.delivery.entities.User;
 import com.projecao.projeto.delivery.repositories.RoleRepository;
 import com.projecao.projeto.delivery.repositories.UserRepository;
-import com.projecao.projeto.delivery.services.exception.DatabaseException;
-import com.projecao.projeto.delivery.services.exception.ResourceEmptyException;
-import com.projecao.projeto.delivery.services.exception.ResourceExistsException;
-import com.projecao.projeto.delivery.services.exception.ResourceNotFoundException;
 
 @Service
-public class UserService implements UserDetailsService{
-	
+public class UserService implements UserDetailsService {
 	private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
 	@Autowired
-	private UserRepository repository;	
-	
+	private UserRepository repository;
+
 	@Autowired
 	private RoleRepository repositoryRole;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncode;
 
-	
 	@Transactional(readOnly = true)
 	public Page<UserDTO> findAll(Pageable pageable) {
 		Page<User> Users = repository.findAll(pageable);
@@ -67,11 +65,10 @@ public class UserService implements UserDetailsService{
 			} else if (result.isPresent()) {
 				throw new ResourceExistsException("Resource Already Exits");
 			}
-		} 
-		catch (DataIntegrityViolationException e) {
-		  throw new ResourceEmptyException("Resource Empty!");
+		} catch (DataIntegrityViolationException e) {
+			throw new ResourceEmptyException("Resource Empty!");
 		}
-		
+
 		return new UserDTO(entity);
 	}
 
@@ -100,23 +97,23 @@ public class UserService implements UserDetailsService{
 		entity.setEmail(dto.getEmail());
 		entity.setCpf(dto.getCpf());
 		entity.setGender(dto.getGender());
-	
+
 		entity.getRoles().clear();
 		for (RoleDTO rol : dto.getRoles()) {
 			Optional<Role> obj = repositoryRole.findById(rol.getId());
-			Role role = obj.orElseThrow(() ->  new  ResourceNotFoundException("Resource " + rol.getId() + " Not found!"));
+			Role role = obj.orElseThrow(() -> new ResourceNotFoundException("Resource " + rol.getId() + " Not found!"));
 			entity.getRoles().add(role);
 		}
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = repository.findByEmail(username).get();
-		if(user == null) {
+		User user = repository.findByEmail(username);
+		if (user == null) {
 			logger.error("User not found: " + username);
-			throw new UsernameNotFoundException("Email not Found");
+			throw new UsernameNotFoundException("Email not found");
 		}
-		logger.error("User found: " + username);
-		return user;
+		logger.info("User found: " + username);
+		return (UserDetails) user;
 	}
 }

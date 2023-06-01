@@ -13,19 +13,19 @@ public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	
+
 	@NotBlank(message = "Campo requerido")
 	private String name;
-	
+
 	@NotBlank
 	@Pattern(regexp = "(\\d{3}.?\\d{3}.?\\d{3}-?\\d{2})", message = "Favor digite cpf valido")
 	private String cpf;
-	
+
 	@Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Favor entrar um email válido")
 	private String email;
-	
+
 	private Character gender;
-	
+
 	private Set<RoleDTO> roles = new HashSet<>();
 
 	public UserDTO() {
@@ -39,7 +39,7 @@ public class UserDTO implements Serializable {
 		gender = entity.getGender();
 		entity.getRoles().forEach(x -> this.roles.add(new RoleDTO(x)));
 	}
-	
+
 	public Long getId() {
 		return id;
 	}

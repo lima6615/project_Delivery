@@ -1,6 +1,5 @@
 package com.projecao.projeto.delivery.resources;
 
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,41 +20,40 @@ import com.projecao.projeto.delivery.dto.UserDTO;
 import com.projecao.projeto.delivery.dto.UserInsertDTO;
 import com.projecao.projeto.delivery.services.UserService;
 
-
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
 
-    @Autowired
-    private UserService service;
-    
-    @GetMapping
-    public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable){
-      Page<UserDTO> dto = service.findAll(pageable);
-      return ResponseEntity.ok().body(dto);
-    }
+	@Autowired
+	private UserService service;
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> findById(@PathVariable Long id){
-        UserDTO dto = service.findById(id);
-        return ResponseEntity.ok().body(dto);
-    }
+	@GetMapping
+	public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
+		Page<UserDTO> dto = service.findAll(pageable);
+		return ResponseEntity.ok().body(dto);
+	}
 
-    @PostMapping
-    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto){
-       UserDTO userdto = service.insert(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userdto);
-    }
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+		UserDTO dto = service.findById(id);
+		return ResponseEntity.ok().body(dto);
+	}
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO dto){
-        dto = service.update(id, dto);
-        return ResponseEntity.ok().body(dto);
-    }
+	@PostMapping
+	public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto) {
+		UserDTO userdto = service.insert(dto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(userdto);
+	}
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
-        service.delete(id);
-        return ResponseEntity.noContent().build();
-    }
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO dto) {
+		dto = service.update(id, dto);
+		return ResponseEntity.ok().body(dto);
+	}
+
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }

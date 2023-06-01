@@ -11,23 +11,22 @@ import javax.validation.constraints.Positive;
 import com.projecao.projeto.delivery.entities.Category;
 import com.projecao.projeto.delivery.entities.Product;
 
-
 public class ProductDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
-	
+
 	@NotBlank(message = "Campo requerido")
 	private String name;
-	
+
 	@NotBlank(message = "Campo requerido")
 	private String description;
-	
+
 	private String figure;
-	
+
 	@Positive(message = "Preço deve ser positivo")
 	private Double price;
-	
+
 	private List<CategoryDTO> categories = new ArrayList<>();
 
 	public ProductDTO() {

@@ -1,23 +1,28 @@
 package com.projecao.projeto.delivery.entities;
 
-import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_telefone")
 public class Phone implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
+
 	@Column(name = "tipos")
 	private PhoneTypes types;
-	
+
 	@Column(name = "numero")
 	private String number;
 

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.projecao.projeto.delivery.entities.Role;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long>{
-	
+public interface RoleRepository extends JpaRepository<Role, Long> {
+
 	Optional<Role> findByAuthorith(String authorith);
 
 }

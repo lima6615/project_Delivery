@@ -1,9 +1,19 @@
 package com.projecao.projeto.delivery.entities;
 
-import jakarta.persistence.*;
-
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_produto")
@@ -14,16 +24,16 @@ public class Product implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
+
 	@Column(name = "nome", nullable = false)
 	private String name;
-	
+
 	@Column(name = "descricao", columnDefinition = "text", nullable = false)
 	private String description;
-	
+
 	@Column(name = "imagem")
 	private String figure;
-	
+
 	@Column(name = "preco", nullable = false)
 	private Double price;
 
@@ -31,7 +41,6 @@ public class Product implements Serializable {
 	@JoinTable(name = "tb_produto_categoria", joinColumns = @JoinColumn(name = "id_produto"), inverseJoinColumns = @JoinColumn(name = "id_categoria"))
 	private Set<Category> categories = new HashSet<>();
 
-	
 	public Product() {
 	}
 
