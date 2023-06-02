@@ -1,6 +1,4 @@
-import { useForm } from 'react-hook-form';
 import './styles.css'
-import { Product } from '../../../../assets/types/product';
 
 const Form = () =>{
 

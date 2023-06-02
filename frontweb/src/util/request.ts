@@ -1,12 +1,10 @@
 import axios from 'axios';
-import qs from "qs";
+import qs from 'qs';
 
 export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8080';
 
-const CLIENT_ID = process.env.REACT_APP_CLIENT_ID ?? 'delivery';
-const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET ?? 'delivery';
-
-const basicHeader = () => 'Basic' + window.btoa(CLIENT_ID + ':' + CLIENT_SECRET);
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID ?? 'dscatalog';
+const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET ?? 'dscatalog123';
 
 type LoginData = {
    username: string;
@@ -17,7 +15,7 @@ export const requestBackendLongin = (loginData : LoginData) =>{
 
     const headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: basicHeader
+         Authorization:  'Basic ' + window.btoa(CLIENT_ID + ':' + CLIENT_SECRET)
     }
 
     const data = qs.stringify({
@@ -25,5 +23,6 @@ export const requestBackendLongin = (loginData : LoginData) =>{
         grant_type: 'password'
     });
 
-    //return axios({ method: 'POST' , baseURL: BASE_URL, url: '/oauth/token', data: data, headers: headers });
+    return axios ({ method: 'POST', baseURL: BASE_URL, url: '/oauth/token', data: data, headers: headers})
+
 };
