@@ -1,26 +1,51 @@
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import ButtonIcon from '../../../../components/ButtonIcon';
 import { useForm } from 'react-hook-form';
 import { requestBackendLongin } from '../../../../util/request';
+import { toast } from 'react-toastify';
+
+import { useContext } from 'react';
+import { saveAuthData } from '../../../../util/storage';
+import { getTokenData } from '../../../../util/auth';
+import { AuthContext } from '../../../../AuthContext';
+
 
 import './styles.css';
 
-type FormData = {
+type CredentialsDTO = {
   username: string;
   password: string;
 };
 
+type LocationState = {
+  from: string;
+}
+
 const Login = () => {
 
-  const { register, handleSubmit,formState: {errors} } = useForm<FormData>();
+  const location = useLocation<LocationState>();
 
-  const onSubmit = (formData: FormData) => {
+  const { from } = location.state || { from: { pathname: '/admin' } };
+
+  const { setAuthContextData} = useContext(AuthContext);
+
+  const { register, handleSubmit,formState: {errors} } = useForm<CredentialsDTO>();
+
+  const history = useHistory();
+
+  const onSubmit = (formData: CredentialsDTO) => {
     requestBackendLongin(formData)
       .then((response) => {
-        console.log('Sucesso!', response);
+        saveAuthData(response.data);
+        setAuthContextData({
+          authenticated: true,
+          tokenData: getTokenData(),
+        })
+        history.replace(from);
+        toast.success('Seja Bem Vindo!')
       })
-      .catch((error) => {
-        console.log('Falhar!', error);
+      .catch(() => {
+        toast.error('Error ao efetuar Login!')
       });
   };
 
@@ -36,8 +61,7 @@ const Login = () => {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                 message: 'Email inválido'
               }
-            }
-              
+            }    
             )}
             type="text"
             className={`form-control base-input ${errors.username ? 'is-invalid' : ''}`}

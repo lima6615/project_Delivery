@@ -5,5 +5,15 @@ $theme-colors: (
 );
 $body-bg: #f2f2f2;
 $body-color: #263238;
+ 
+a {
+    text-decoration: none !important;
+    
+}
+
+.custom ul {
+    margin: none !important;
+    padding: none !important;
+}
 
 @import '~bootstrap/scss/bootstrap.scss';

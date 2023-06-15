@@ -8,3 +8,8 @@ export type Product = {
   price: number;
   categories: Category[];
 };
+
+export interface Stock {
+  id: number;
+  amount: number;
+}

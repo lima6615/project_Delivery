@@ -1,31 +1,59 @@
 import { Link } from "react-router-dom";
 import ProductCrudCard from "../ProductCrudCard";
-import { useEffect, useState } from "react";
-import { SpringPage } from "../../../../assets/types/spring";
+import { useCallback, useEffect, useState } from "react";
+import { SpringPage } from "../../../../assets/types/vendor/spring";
 import { Product } from "../../../../assets/types/product";
 
+import { AxiosRequestConfig } from "axios";
+import { requestBackend } from "../../../../util/request";
+import ProductFilter, { ProductFilterData } from "../../../../components/ProductFilter";
+import Pagination from "../../../../components/pagination";
+
 import './styles.css';
-import axios, { AxiosRequestConfig } from "axios";
-import { BASE_URL } from "../../../../util/request";
+
+type ControlComponentsData = {
+  activePage: number;
+  filterData: ProductFilterData;
+};
 
 const List = () =>{
 
-    const [page, setPage] = useState<SpringPage<Product>>();
+  const [page, setPage] = useState<SpringPage<Product>>();
 
-    useEffect(() => {
-        const params: AxiosRequestConfig = {
-          method: 'GET',
-          url: "/products",
-          baseURL: BASE_URL,
-          params: {
-            page: 0,
-            size: 12,
-          },
-        };
-        axios(params).then((response) => {
-          setPage(response.data);
-        });
-      }, []);
+  const [controlComponentsData, setControlComponentsData] =
+  useState<ControlComponentsData>({
+    activePage: 0,
+    filterData: { name: '', category: null },
+  });
+
+  const handlePageChange = (pageNumber: number) => {
+    setControlComponentsData({ activePage: pageNumber, filterData: controlComponentsData.filterData });
+  };
+
+  const handleSubmitFilter = (data: ProductFilterData) => {
+    setControlComponentsData({ activePage: 0, filterData: data });   
+  };
+
+  const getProducts = useCallback(() => {
+    const config: AxiosRequestConfig = {
+      method: 'GET',
+      url: '/products',
+      params: {
+        page: controlComponentsData.activePage,
+        size: 3,
+        name: controlComponentsData.filterData.name,
+        categoryId: controlComponentsData.filterData.category?.id
+      },
+    };
+
+    requestBackend(config).then((response) => {
+      setPage(response.data);
+    });
+  }, [controlComponentsData]);
+
+  useEffect(() => {
+    getProducts();
+  }, [getProducts]);
 
     return(
         <div className="product-card-container">
@@ -33,18 +61,21 @@ const List = () =>{
                 <Link to="/admin/products/create" className="product-link">
                     <button className="btn btn-primary text-white btn-crud-add">ADICIONAR</button>
                 </Link>
-                <div className = "base-card product-filter-container"> Buscar </div>
+                <ProductFilter onSubmitFilter={handleSubmitFilter} />
             </div>
             <div className="row">
-
-                {
-                  page?.content.map(product => (
-                    <div key={product.id}>
-                        <ProductCrudCard product={product}/>
+                {page?.content.map(product => (
+                    <div key={product.id} className="col-sm-6 col-md-12">
+                        <ProductCrudCard product={product} onDelete={getProducts}/>
                     </div>
-                  ))
-                }
+                  ))}
             </div>
+            <Pagination
+                forcePage={page?.number}
+                pageCount={page ? page.totalPages : 0}
+                range={3}
+                onChange={handlePageChange}
+            />
         </div>
     );
 }

@@ -1,33 +1,45 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Product } from '../../assets/types/product';
-import { SpringPage } from '../../assets/types/spring';
+import { SpringPage } from '../../assets/types/vendor/spring';
 import Pagination from '../../components/pagination';
 import ProductCard from '../../components/ProductCard';
-import { BASE_URL } from '../../util/request';
+
+import CartButton from '../../components/CartButton';
+import { requestBackend } from '../../util/request';
+import CardLoader from './CardLoader';
 
 import './styles.css';
-import CartButton from '../../components/CartButton';
 
 const Catalog = () => {
 
   const [page, setPage] = useState<SpringPage<Product>>();
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  const getProducts = (pageNumber: number) => {
     const params: AxiosRequestConfig = {
       method: 'GET',
-      url: "/products",
-      baseURL: BASE_URL,
+      url: '/products',
       params: {
-        page: 0,
+        page: pageNumber,
         size: 12,
       },
     };
-    axios(params).then((response) => {
-      setPage(response.data);
-    });
+
+    setIsLoading(true);
+    requestBackend(params)
+      .then((response) => {
+        setPage(response.data);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
+  useEffect(() => {
+    getProducts(0);
   }, []);
 
   return (
@@ -37,17 +49,25 @@ const Catalog = () => {
         <CartButton />
       </div>
       <div className="row">
-        {page?.content.map((product) => (
-          <div className="col-sm-6 col-lg-4 col-xl-3" key={product.id}>
-            <Link to={`/products/${product.id}`}>
-              <ProductCard product={product} />
-            </Link>
-          </div>
-        ))}
+        {isLoading ? (
+          <CardLoader />
+        ) : (
+          page?.content.map((product) => (
+            <div className="col-sm-6 col-lg-4 col-xl-3" key={product.id}>
+              <Link to={`/products/${product.id}`}>
+                <ProductCard product={product} />
+              </Link>
+            </div>
+          ))
+        )}
       </div>
       
       <div className="row">
-        <Pagination />
+        <Pagination 
+           pageCount={page ? page.totalPages : 0} 
+           range={3} 
+           onChange={getProducts}
+        />
       </div>
     </div>
   );

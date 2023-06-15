@@ -4,19 +4,21 @@ import './styles.css';
 const Navbar = () => {
   return (
     <nav className="admin-nav-container">
-      <ul>
+      <ul className="admin-nav-items-container">
         <li>
           <NavLink to="/admin/products" className="admin-nav-item">
             <p>Produtos</p>
           </NavLink> 
         </li>
-        <li>
-          <NavLink to="/admin/categories" className="admin-nav-item">
+       <li>
+         {/*/admin/categories*/}  
+          <NavLink to="#" className="admin-nav-item">
             <p>Categorias</p>
           </NavLink> 
         </li>
         <li>
-          <NavLink  to="/admin/employee" className="admin-nav-item">
+         {/*/admin/employee  */} 
+          <NavLink  to="#" className="admin-nav-item">
             <p>Usuários</p>
           </NavLink> 
         </li>

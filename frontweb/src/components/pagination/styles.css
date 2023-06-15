@@ -1,13 +1,13 @@
-.pagination-container{
+.pagination-container {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.pagination-item{
+  }
+  
+.pagination-item {
     width: 40px;
     height: 40px;
-    border-radius: 50px;
+    border-radius: 50%;
     background-color: #e1e1e1;
     font-size: 18px;
     font-weight: bold;
@@ -19,22 +19,40 @@
     margin-left: 10px;
 }
 
-.pagination-item.active{
+.pagination-item.active {
     background-color: #407bff;
 }
 
-.arrow-inactive{
-    color: #e1e1e1;
+.pagination-link-active {
+    background-color: #407bff;
 }
 
-.arrow-previous{
+.arrow-previous {
     transform: rotate(-180deg);
+    color: #407bff;
 }
 
 .arrow-next {
     margin-left: 10px;
+    color: #407bff;
 }
 
-.arrow-active{
+.arrow-inactive {
+    color: #e1e1e1;
+}
+
+.arrow-active {
     color: #407bff;
+}
+  
+.pagination-arrow-container {
+    display: flex;
+    align-items: center;
+ }
+
+
+@media (min-width: 992px) {
+    .pagination-item {
+        justify-items: right;
+    }
 }

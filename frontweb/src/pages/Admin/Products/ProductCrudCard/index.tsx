@@ -4,12 +4,34 @@ import '../../../../App.css';
 import ProductPrice from '../../../../components/ProductPrice';
 import { Product } from '../../../../assets/types/product';
 import CategoryBadge from '../CategoryBadge';
+import { AxiosRequestConfig } from 'axios';
+import { requestBackend } from '../../../../util/request';
+import { Link } from 'react-router-dom';
 
 type Props = {
   product: Product;
+  onDelete: Function;
 };
 
-const ProductCrudCard = ({product} :  Props) => {
+const ProductCrudCard = ({product, onDelete} :  Props) => {
+
+  const handleDelete = (productId: number) => {
+
+    /*if (!window.confirm("Tem certeza que deseja deletar?")) {
+      return;
+    }*/
+
+    const config: AxiosRequestConfig = {
+      method: 'DELETE',
+      url: `/products/${productId}`,
+      withCredentials: true,
+    };
+
+    requestBackend(config).then(() => {
+      onDelete();
+    });
+  };
+
   return (
     <div className="base-card product-crud-card">
       <div className="product-crud-card-top-container">
@@ -27,12 +49,16 @@ const ProductCrudCard = ({product} :  Props) => {
         </div>
       </div>
       <div className="product-crud-card-buttons-container">
-          <button className="btn btn-outline-danger product-crud-card-button product-crud-card-button-first">
+          <button 
+            onClick={() => handleDelete(product.id)}
+            className="btn btn-outline-danger product-crud-card-button product-crud-card-button-first">
             EXCLUIR
           </button>
-          <button className="btn btn-outline-secordary product-crud-card-button">
-            EDITAR
-          </button>
+          <Link to={`/admin/products/${product.id}`}>
+            <button className="btn btn-outline-secordary product-crud-card-button">
+              EDITAR
+            </button>
+          </Link>
       </div>
     </div>
   );
